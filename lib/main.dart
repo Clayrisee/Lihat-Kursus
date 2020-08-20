@@ -31,7 +31,7 @@ class Courses {
 }
 
 class MyHomePage extends StatelessWidget {
-  final List<Courses> coursesList = [
+  final List<Courses> courses = [
     Courses(
       id: 1,
       title: "Kelas Android Dasar",
@@ -64,6 +64,8 @@ class MyHomePage extends StatelessWidget {
     ),
   ];
 
+  MyHomePage({Key key, @required this.courses}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,7 +73,7 @@ class MyHomePage extends StatelessWidget {
           title: new Text("Halaman Utama"),
         ),
         body: ListView.builder(
-            itemCount: coursesList.length,
+            itemCount: courses.length,
             itemBuilder: (context, index){
               return Center(
                 child: Card(
@@ -79,7 +81,7 @@ class MyHomePage extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [ListTile(
                       leading: Icon(Icons.book),
-                      title: Text(coursesList[index].title),
+                      title: Text(courses[index].title),
                     ),
                       ButtonBar(
                         children: <Widget>[
@@ -89,8 +91,13 @@ class MyHomePage extends StatelessWidget {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (BuildContext context) =>
-                                          DetailPage()));},
+                                      builder: (context) =>
+                                          DetailPage(),
+                                    settings: RouteSettings(
+                                      arguments: courses[index]
+                                    ),
+                                  ));
+                              },
                           ),
                           FlatButton.icon(
                             icon: Icon(Icons.thumb_up),
